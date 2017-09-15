@@ -49,6 +49,21 @@ class Provider(object):
         # NOTE: Avoid loading models at top due to registry boot...
         from allauth.socialaccount.models import SocialApp
 
+        from django.conf import settings
+        if hasattr(settings, 'ALLAUTH_AUTO_SETUP_PROVIDERS') and settings.ALLAUTH_AUTO_SETUP_PROVIDERS:
+            if not 'client_id' in self.get_settings():
+                raise Exception("add 'client_id' to '{}' settings".format(self.id))
+            if not 'secret' in self.get_settings():
+                raise Exception("add 'secret' to '{}' settings".format(self.id))
+
+            (retval, created)  = SocialApp.objects.get_or_create(
+                client_id=self.get_settings().get('client_id'),
+                secret=self.get_settings().get('secret'),
+                provider=self.id,
+                name=self.id
+            )
+            return retval
+
         return SocialApp.objects.get_current(self.id, request)
 
     def media_js(self, request):

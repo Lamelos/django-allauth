@@ -1,85 +1,24 @@
-==========================
-Welcome to django-allauth!
-==========================
+Forked from: https://github.com/pennersr/django-allauth
 
-.. image:: https://badge.fury.io/py/django-allauth.png
-   :target: http://badge.fury.io/py/django-allauth
+In this fork I've added a setting for ALLAUTH
 
-.. image:: https://travis-ci.org/pennersr/django-allauth.png
-   :target: http://travis-ci.org/pennersr/django-allauth
+.. code-block::
 
-.. image:: https://img.shields.io/pypi/v/django-allauth.svg
-   :target: https://pypi.python.org/pypi/django-allauth
+    ALLAUTH_AUTO_SETUP_PROVIDERS = True
 
-.. image:: https://coveralls.io/repos/pennersr/django-allauth/badge.png?branch=master
-   :alt: Coverage Status
-   :target: https://coveralls.io/r/pennersr/django-allauth
+which when enabled automatically creates a SocialApp model when needed with client_id and secret settings specified in the provider settings. I use environment files for my deployment needs so I don't want to go meddling in the Django admin to create a new SocialApp for each deployed site. This way I can use the site specific environment file (which already has super-secret stuff, such as database password, secret_key and other api settings).
 
-.. image:: https://pennersr.github.io/img/bitcoin-badge.svg
-   :target: https://blockchain.info/address/1AJXuBMPHkaDCNX2rwAy34bGgs7hmrePEr
+Example usage:
 
-.. image:: https://img.shields.io/badge/code%20style-pep8-green.svg
-   :target: https://www.python.org/dev/peps/pep-0008/
+.. code-block::
 
-.. image:: https://img.shields.io/badge/code_style-standard-brightgreen.svg
-   :target: http://standardjs.com
+    import environ
+    env = environ.Env()     # get environment
 
-Integrated set of Django applications addressing authentication,
-registration, account management as well as 3rd party (social) account
-authentication.
-
-Home page
-  http://www.intenct.nl/projects/django-allauth/
-
-Source code
-  http://github.com/pennersr/django-allauth
-
-Mailinglist
-  http://groups.google.com/group/django-allauth
-
-Documentation
-  https://django-allauth.readthedocs.io/en/latest/
-
-Stack Overflow
-  http://stackoverflow.com/questions/tagged/django-allauth
-
-Rationale
-=========
-
-Most existing Django apps that address the problem of social
-authentication focus on just that. You typically need to integrate
-another app in order to support authentication via a local
-account.
-
-This approach separates the worlds of local and social
-authentication. However, there are common scenarios to be dealt with
-in both worlds. For example, an e-mail address passed along by an
-OpenID provider is not guaranteed to be verified. So, before hooking
-an OpenID account up to a local account the e-mail address must be
-verified. So, e-mail verification needs to be present in both worlds.
-
-Integrating both worlds is quite a tedious process. It is definitely
-not a matter of simply adding one social authentication app, and one
-local account registration app to your ``INSTALLED_APPS`` list.
-
-This is the reason this project got started -- to offer a fully
-integrated authentication app that allows for both local and social
-authentication, with flows that just work.
-
-
-Commercial Support
-==================
-
-This project is sponsored by IntenCT_. If you require assistance on
-your project(s), please contact us: info@intenct.nl.
-
-.. _IntenCT: http://www.intenct.info
-
-
-Cross-Selling
-=============
-
-If you like this, you may also like:
-
-- django-trackstats: https://github.com/pennersr/django-trackstats
-- netwell: https://github.com/pennersr/netwell
+    ALLAUTH_AUTO_SETUP_PROVIDERS = True     # enable automatic creation of SocialApp for providers
+    SOCIALACCOUNT_PROVIDERS = {
+        'office365': {
+          'client_id': env('OFFICE365_APPLICATION_ID'),
+          'secret': env('OFFICE365_SECRET')
+        }
+    }
