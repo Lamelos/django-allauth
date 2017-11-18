@@ -7,10 +7,10 @@ from django import forms
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core import exceptions, validators
+from django.urls import reverse
 from django.utils.translation import pgettext, ugettext, ugettext_lazy as _
 
 from . import app_settings
-from ..compat import reverse
 from ..utils import (
     build_absolute_uri,
     get_username_max_length,
@@ -353,7 +353,7 @@ class SignupForm(BaseSignupForm):
     def clean(self):
         super(SignupForm, self).clean()
 
-        # `password` cannot by of type `SetPasswordField`, as we don't
+        # `password` cannot be of type `SetPasswordField`, as we don't
         # have a `User` yet. So, let's populate a dummy user to be used
         # for password validaton.
         dummy_user = get_user_model()
@@ -559,8 +559,11 @@ class UserTokenForm(forms.Form):
     def clean(self):
         cleaned_data = super(UserTokenForm, self).clean()
 
-        uidb36 = cleaned_data['uidb36']
-        key = cleaned_data['key']
+        uidb36 = cleaned_data.get('uidb36', None)
+        key = cleaned_data.get('key', None)
+
+        if not key:
+            raise forms.ValidationError(self.error_messages['token_invalid'])
 
         self.reset_user = self._get_user(uidb36)
         if (self.reset_user is None or
