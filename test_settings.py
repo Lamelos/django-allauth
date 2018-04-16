@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.asana',
     'allauth.socialaccount.providers.auth0',
     'allauth.socialaccount.providers.authentiq',
+    'allauth.socialaccount.providers.azure',
     'allauth.socialaccount.providers.baidu',
     'allauth.socialaccount.providers.basecamp',
     'allauth.socialaccount.providers.battlenet',
@@ -94,6 +95,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.mailchimp',
     'allauth.socialaccount.providers.mailru',
     'allauth.socialaccount.providers.meetup',
+    'allauth.socialaccount.providers.microsoft',
     'allauth.socialaccount.providers.naver',
     'allauth.socialaccount.providers.odnoklassniki',
     'allauth.socialaccount.providers.openid',
@@ -102,6 +104,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.paypal',
     'allauth.socialaccount.providers.persona',
     'allauth.socialaccount.providers.pinterest',
+    'allauth.socialaccount.providers.quickbooks',
     'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.robinhood',
     'allauth.socialaccount.providers.salesforce',
@@ -111,6 +114,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.spotify',
     'allauth.socialaccount.providers.stackexchange',
     'allauth.socialaccount.providers.stripe',
+    'allauth.socialaccount.providers.telegram',
     'allauth.socialaccount.providers.trello',
     'allauth.socialaccount.providers.tumblr',
     'allauth.socialaccount.providers.twentythreeandme',
@@ -122,7 +126,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.weibo',
     'allauth.socialaccount.providers.weixin',
     'allauth.socialaccount.providers.windowslive',
-    'allauth.socialaccount.providers.xing'
+    'allauth.socialaccount.providers.xing',
+    'allauth.socialaccount.providers.yahoo',
 )
 
 AUTHENTICATION_BACKENDS = (

@@ -439,7 +439,7 @@ The following Facebook settings are available:
             'EXCHANGE_TOKEN': True,
             'LOCALE_FUNC': 'path.to.callable',
             'VERIFIED_EMAIL': False,
-            'VERSION': 'v2.5',
+            'VERSION': 'v2.12',
         }
     }
 
@@ -499,7 +499,7 @@ VERIFIED_EMAIL:
     risk.
 
 VERSION:
-    The Facebook Graph API version to use. The default is ``v2.5``.
+    The Facebook Graph API version to use. The default is ``v2.12``.
 
 App registration (get your key and secret here)
     A key and secret key can be obtained by
@@ -708,6 +708,9 @@ Optionally, you can specify the scope to use as follows:
 By default, ``profile`` scope is required, and optionally ``email`` scope
 depending on whether or not ``SOCIALACCOUNT_QUERY_EMAIL`` is enabled.
 
+You must set ``AUTH_PARAMS['access_type']`` to ``offline`` in order to
+receive a refresh token on first login and on reauthentication requests.
+
 
 Instagram
 ---------
@@ -857,6 +860,27 @@ and then run::
 which should allow you to test locally via https://127.0.0.1:8000. Some
 browsers may require enabling this on localhost and not support by default and
 ask for permission.
+
+
+Microsoft Graph
+-----------------
+
+Microsoft Graph API is the gateway to connect to mail, calendar, contacts,
+documents, directory, devices and more.
+
+Apps can be registered (for consumer key and secret) here
+    https://apps.dev.microsoft.com/
+
+By default, `common` (`organizations` and `consumers`) tenancy is configured
+for the login. To restrict it, change the `tenant` setting as shown below.
+
+.. code-block:: python
+
+    SOCIALACCOUNT_PROVIDERS = {
+        'microsoft': {
+            'tenant': 'organizations',
+        }
+    }
 
 
 Naver
@@ -1050,6 +1074,25 @@ SCOPE:
     For a full list of scope options, see
     https://developers.pinterest.com/docs/api/overview/#scopes
 
+QuickBooks
+------
+
+App registration (get your key and secret here)
+    https://developers.intuit.com/v2/ui#/app/startcreate
+
+Development callback URL
+    http://localhost:8000/accounts/quickbooks/login/callback/
+
+You can specify sandbox mode by adding the following to the SOCIALACCOUNT_PROVIDERS in your settings.
+
+.. code-block:: python
+
+    SOCIALACCOUNT_PROVIDERS = {
+        'quickbooks': {
+            'SANDBOX': TRUE,
+        }
+    }
+
 
 Reddit
 ------
@@ -1080,6 +1123,10 @@ you will risk additional rate limiting in your application.
             'USER_AGENT': 'django:myappid:1.0 (by /u/yourredditname)',
         }
     }
+
+
+
+
 
 
 Salesforce
@@ -1309,6 +1356,18 @@ The configuration values come from your API dashboard on Untappd:
 * Sites: choose your site
 
 
+Telegram
+--------
+
+.. code-block:: python
+
+    SOCIALACCOUNT_PROVIDERS = {
+        'telegram': {
+            'TOKEN': 'insert-token-received-from-botfather'
+        }
+    }
+
+
 Vimeo
 -----
 
@@ -1370,13 +1429,15 @@ will support open platform by default, which value is
 ``https://open.weixin.qq.com/connect/qrconnect``.
 
 You can optionally specify additional scope to use. If no ``SCOPE`` value
-is set, will use ``snsapi_login`` by default.
+is set, will use ``snsapi_login`` by default(for Open Platform Account, need
+registration). Other ``SCOPE`` options are: snsapi_base, snsapi_userinfo.
 
 .. code-block:: python
 
     SOCIALACCOUNT_PROVIDERS = {
         'weixin': {
             'AUTHORIZE_URL': 'https://open.weixin.qq.com/connect/oauth2/authorize',  # for media platform
+            'SCOPE': ['snsapi_base'],
         }
     }
 
@@ -1389,3 +1450,10 @@ App registration (get your key and secret here)
 
 Development callback URL
     http://localhost:8000
+
+
+Yahoo
+------
+
+Register your OAuth2 app below and enter the resultant client id and secret into admin
+    https://developer.yahoo.com/apps/create/
